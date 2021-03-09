@@ -1,4 +1,5 @@
 - [x] change Makefile to be compatible with colab
+- [x] change predict.py  
 
 
 # Efficient and Accurate Arbitrary-Shaped Text Detection with Pixel Aggregation Network
