@@ -1,3 +1,6 @@
+- [x] change Makefile to be compatible with colab
+
+
 # Efficient and Accurate Arbitrary-Shaped Text Detection with Pixel Aggregation Network
 
 ![](imgs/paper/PAN.jpg)
