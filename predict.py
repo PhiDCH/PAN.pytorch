@@ -12,6 +12,15 @@ from models import get_model
 
 from post_processing import decode
 
+import argparse
+
+parse = argparse.ArgumentParser(description="PAN Text detection")
+parse.add_argument('--trained_model', default='./pretrain/pan-resnet18-ic15.pth', type=str, help='pretrained model')
+parse.add_argument('--test_folder', default='./test_img', type=str, help='folder path to input images')
+parse.add_argument('--result_folder', default='./result', type=str, help='folder path to result images')
+
+args = parse.parse_args()
+
 def decode_clip(preds, scale=1, threshold=0.7311, min_area=5):
     import pyclipper
     import numpy as np
@@ -59,7 +68,7 @@ class Pytorch_model:
             self.device = torch.device("cpu")
         print('device:', self.device)
         checkpoint = torch.load(model_path, map_location=self.device)
-
+        
         config = checkpoint['config']
         config['arch']['args']['pretrained'] = False
         self.net = get_model(config)
@@ -104,20 +113,37 @@ class Pytorch_model:
 
 
 if __name__ == '__main__':
-    import matplotlib.pyplot as plt
+    # import matplotlib.pyplot as plt
     from utils.util import show_img, draw_bbox
 
     os.environ['CUDA_VISIBLE_DEVICES'] = str('0')
 
-    model_path = 'output/PAN_shufflenetv2_FPEM_FFM.pth'
-
-    img_id = 10
-    img_path = 'E:/zj/dataset/icdar2015/test/img/img_{}.jpg'.format(img_id)
-
-    # 初始化网络
+    model_path = args.trained_model
+    img_path = args.test_folder
+    result_path = args.result_folder
+    
     model = Pytorch_model(model_path, gpu_id=0)
-    preds, boxes_list, t = model.predict(img_path)
-    show_img(preds)
-    img = draw_bbox(cv2.imread(img_path)[:, :, ::-1], boxes_list)
-    show_img(img, color=True)
-    plt.show()
+    list_img = []
+    list_name = os.listdir(img_path)
+    for path in list_name:
+        list_img.append(os.path.join(img_path, path))
+    
+    for idx, path in enumerate(list_img):
+        preds, boxes_list, t = model.predict(path)
+        print('predict %dth image in %.2fs'%(idx, t))
+        
+        cv2.imwrite(os.path.join(result_path, 'pred_'+list_name[idx]), preds)
+        
+        img = draw_bbox(cv2.imread(path)[:, :, ::-1], boxes_list)
+        cv2.imwrite(os.path.join(result_path, 'res_'+list_name[idx]), img)
+    
+
+    
+
+    # # 初始化网络
+    # model = Pytorch_model(model_path, gpu_id=0)
+    # preds, boxes_list, t = model.predict(img_path)
+    # show_img(preds)
+    # img = draw_bbox(cv2.imread(img_path)[:, :, ::-1], boxes_list)
+    # show_img(img, color=True)
+    # plt.show()
