@@ -12,6 +12,15 @@ from utils import cal_recall_precison_f1, draw_bbox
 
 torch.backends.cudnn.benchmark = True
 
+import argparse
+
+parse = argparse.ArgumentParser(description="Evaluate ICDAR2015")
+parse.add_argument('--trained_model', default='./pretrain/pan-resnet18-ic15.pth', type=str, help='pretrained model')
+parse.add_argument('--img_path', default='../icdar2015/test_img', type=str, help='folder path to test images')
+parse.add_argument('--gt_path', default='../icdar2015/test_gt', type=str, help='folder path to ground truth')
+parse.add_argument('--result_folder', default='./result', type=str, help='folder path to result images')
+
+args = parse.parse_args()
 
 def main(model_path, img_folder, save_path, gpu_id):
     if os.path.exists(save_path):
@@ -43,10 +52,15 @@ def main(model_path, img_folder, save_path, gpu_id):
 
 if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = str('0')
-    model_path = r'output/PAN_shufflenetv2_FPEM_FFM.pth'
-    img_path = r'/mnt/e/zj/dataset/icdar2015/test/img'
-    gt_path = r'/mnt/e/zj/dataset/icdar2015/test/gt'
-    save_path = './output/result'#model_path.replace('checkpoint/best_model.pth', 'result/')
+    # model_path = r'output/PAN_shufflenetv2_FPEM_FFM.pth'
+    # img_path = r'/mnt/e/zj/dataset/icdar2015/test/img'
+    # gt_path = r'/mnt/e/zj/dataset/icdar2015/test/gt'
+    # save_path = './output/result'#model_path.replace('checkpoint/best_model.pth', 'result/')
+    
+    model_path = args.trained_model
+    img_path = args.img_path
+    gt_path = args.gt_path
+    save_path = args.result_folder
     gpu_id = 0
 
     save_path = main(model_path, img_path, save_path, gpu_id=gpu_id)
