@@ -8,7 +8,7 @@ import shutil
 import numpy as np
 from tqdm.auto import tqdm
 
-from model import get_model
+from models import get_model
 from post_processing import decode
 import torch 
 from torchvision import transforms
