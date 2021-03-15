@@ -7,29 +7,51 @@ from torchvision import transforms
 import copy
 import pathlib
 from . import dataset
-
+import os
 
 def get_datalist(train_data_path, validation_split=0.1):
-    """
-    获取训练和验证的数据list
-    :param train_data_path: 训练的dataset文件列表，每个文件内以如下格式存储 ‘path/to/img\tlabel’
-    :param validation_split: 验证集的比例，当val_data_path为空时使用
-    :return:
+    """[summary]
+
+    Args:
+        train_data_path ([type]): [description]
+        validation_split (float, optional): [description]. Defaults to 0.1.
     """
     train_data_list = []
-    for train_path in train_data_path:
-        train_data = []
-        for p in train_path:
-            with open(p, 'r', encoding='utf-8') as f:
-                for line in f.readlines():
-                    line = line.strip('\n').replace('.jpg ', '.jpg\t').split('\t')
-                    if len(line) > 1:
-                        img_path = pathlib.Path(line[0].strip(' '))
-                        label_path = pathlib.Path(line[1].strip(' '))
-                        if img_path.exists() and img_path.stat().st_size > 0 and label_path.exists() and label_path.stat().st_size > 0:
-                            train_data.append((str(img_path), str(label_path)))
-        train_data_list.append(train_data)
+    train_img_path = os.path.join(train_data_path, 'train_img')
+    train_label_path = os.path.join(train_data_path, 'train_gt')
+    all_img_path = os.listdir(train_img_path)
+    all_label_path = os.listdir(train_label_path)
+    
+    train_data = []
+    for i in range(len(all_img_path)):
+        img_path = os.path.join(train_img_path, all_img_path[i])
+        label_path = os.path.join(train_label_path, all_label_path[i])
+        train_data.append((img_path, label_path))
+        
+    train_data_list.append(train_data)
     return train_data_list
+
+# def get_datalist(train_data_path, validation_split=0.1):
+#     """
+#     获取训练和验证的数据list
+#     :param train_data_path: 训练的dataset文件列表，每个文件内以如下格式存储 ‘path/to/img\tlabel’
+#     :param validation_split: 验证集的比例，当val_data_path为空时使用
+#     :return:
+#     """
+#     train_data_list = []
+#     for train_path in train_data_path:
+#         train_data = []
+#         for p in train_path:
+#             with open(p, 'r', encoding='utf-8') as f:
+#                 for line in f.readlines():
+#                     line = line.strip('\n').replace('.jpg ', '.jpg\t').split('\t')
+#                     if len(line) > 1:
+#                         img_path = pathlib.Path(line[0].strip(' '))
+#                         label_path = pathlib.Path(line[1].strip(' '))
+#                         if img_path.exists() and img_path.stat().st_size > 0 and label_path.exists() and label_path.stat().st_size > 0:
+#                             train_data.append((str(img_path), str(label_path)))
+#         train_data_list.append(train_data)
+#     return train_data_list
 
 
 def get_dataset(data_list, module_name, transform, dataset_args):
