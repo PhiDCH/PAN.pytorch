@@ -16,10 +16,10 @@
             },
             "loader": {
                 "validation_split": 0.1,
-                "train_batch_size": 8,
+                "train_batch_size": 16,
                 "shuffle": true,
                 "pin_memory": false,
-                "num_workers": 4
+                "num_workers": 2
             }
         }
     },
