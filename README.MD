@@ -2,7 +2,7 @@
 - [x] change predict.py  
 - [x] add test_img and result folder 
 - [x] change eval.py 
-- [x] change config.json data_loader/__init__.py, trainer/trainer.py 
+- [x] change config.json data_loader/__init__.py, trainer/trainer.py base/base_trainer.py
 
 # Efficient and Accurate Arbitrary-Shaped Text Detection with Pixel Aggregation Network
 
