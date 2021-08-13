@@ -121,8 +121,8 @@ class Trainer(BaseTrainer):
     def _eval(self):
         self.model.eval()
         # torch.cuda.empty_cache()  # speed up evaluating after training finished
-        img_path = os.path.join(self.test_path, 'val_img')
-        gt_path = os.path.join(self.test_path, 'val_gt')
+        img_path = os.path.join(self.test_path, 'img')
+        gt_path = os.path.join(self.test_path, 'gt')
         result_save_path = os.path.join(self.save_dir, 'result')
         if os.path.exists(result_save_path):
             shutil.rmtree(result_save_path, ignore_errors=True)

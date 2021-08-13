@@ -172,7 +172,7 @@ class BaseTrainer:
         else:
             self.logger.info("Saving checkpoint: {}".format(filename))
         
-        shutil.copyfile(filename, '/content/drive/MyDrive/MyComputer/text_detection/checkpoint/' + os.path.basename(file_name))
+        shutil.copyfile(filename, '/content/drive/MyDrive' + os.path.basename(file_name))
 
     def _laod_checkpoint(self, checkpoint_path, resume):
         """
