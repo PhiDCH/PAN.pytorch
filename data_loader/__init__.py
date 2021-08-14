@@ -26,7 +26,7 @@ def get_datalist(train_data_path, validation_split=0.1):
     for i in range(len(all_img_path)):
         img_path = os.path.join(train_img_path, all_img_path[i])
         # label_path = os.path.join(train_label_path, all_label_path[i])
-        label_path = os.path.join(train_data_path+'/gt', all_img_path[i].strip('.jpg')+'.txt')
+        label_path = os.path.join(train_data_path+'/gt', 'gt_'+all_img_path[i].strip('.jpg')+'.txt')
         train_data.append((img_path, label_path))
         
     train_data_list.append(train_data)
