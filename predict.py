@@ -41,7 +41,7 @@ def main():
         preds, boxes_list, t = model.predict(path)
         print('predict %dth image in %.2fs'%(idx, t))
         
-        cv2.imwrite(os.path.join(result_path, 'pred_'+list_name[idx]), preds)
+        # cv2.imwrite(os.path.join(result_path, 'pred_'+list_name[idx]), preds)
         
         img = draw_bbox(cv2.imread(path)[:, :, ::-1], boxes_list)
         cv2.imwrite(os.path.join(result_path, 'res_'+list_name[idx]), img)
