@@ -8,9 +8,9 @@ import os
 import cv2
 import time
 
-from models import get_model
+from .models import get_model
 
-from post_processing import decode
+from .post_processing import decode
 
 import argparse
 
@@ -43,7 +43,8 @@ def main():
         
         # cv2.imwrite(os.path.join(result_path, 'pred_'+list_name[idx]), preds)
         
-        img = draw_bbox(cv2.imread(path)[:, :, ::-1], boxes_list)
+        # img = draw_bbox(cv2.imread(path)[:, :, ::-1], boxes_list)
+        img = draw_bbox(cv2.imread(path), boxes_list)
         cv2.imwrite(os.path.join(result_path, 'res_'+list_name[idx]), img)
     
 
