@@ -51,7 +51,7 @@
         }
     },
     "lr_scheduler": {
-        "type": "StepLR",
+        "type": "PolynomialLR",
         "args": {
             "step_size": 200,
             "gamma": 0.1
@@ -63,7 +63,7 @@
             0
         ],
         "epochs": 600,
-        "display_interval": 10,
+        "display_interval": 50,
         "show_images_interval": 50,
         "resume_checkpoint": "",
         "finetune_checkpoint": "",
