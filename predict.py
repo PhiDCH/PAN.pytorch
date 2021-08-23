@@ -117,15 +117,15 @@ class Pytorch_model:
         self.net.to(self.device)
         self.net.eval()
 
-    def predict(self, img: str, short_size: int = 736):
+    def predict(self, img, short_size: int = 736):
         '''
         对传入的图像进行预测，支持图像地址,opecv 读取图片，偏慢
         :param img: 图像地址
         :param is_numpy:
         :return:
         '''
-        assert os.path.exists(img), 'file is not exists'
-        img = cv2.imread(img)
+        # assert os.path.exists(img), 'file is not exists'
+        # img = cv2.imread(img)
         if self.img_channel == 3:
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         h, w = img.shape[:2]
